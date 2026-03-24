@@ -1,0 +1,9 @@
+[submodule "backend"]
+	path = backend
+	url = https://github.com/a-poll-o/Scentra-BE.git
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/a-poll-o/Scentra-FE.git
+[submodule "ai-image"]
+	path = ai-image
+	url = https://github.com/a-poll-o/Scentra-AI-image.git
