@@ -7,3 +7,6 @@
 [submodule "ai-image"]
 	path = ai-image
 	url = https://github.com/a-poll-o/Scentra-AI-image.git
+[submodule "ai-chatbot"]
+	path = ai-chatbot
+	url = https://github.com/a-poll-o/Scentra-AI-chatbot.git
