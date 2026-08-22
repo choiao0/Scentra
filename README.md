@@ -3,10 +3,9 @@
 # <img src="assets/logo.png" width="45" valign="middle" alt="Scentra logo" /> Scentra
 
 ### 생성형 AI 기반 향수 쇼핑 플랫폼
+향수 재료를 바탕으로 AI가 배경 이미지를 자동 생성해주고, 대화형 챗봇이 원하는 향을 찾아주는 향수 이커머스 플랫폼입니다.
 
 ![header](https://capsule-render.vercel.app/api?type=blur&&color=auto&height=300&section=header&text=scentra&fontSize=90)
-
-향수 재료를 바탕으로 AI가 배경 이미지를 자동 생성해주고, 대화형 챗봇이 원하는 향을 찾아주는 향수 이커머스 플랫폼입니다.
 
 ## 목차
 1. [서비스 소개](#1-서비스-소개)
@@ -40,8 +39,6 @@
 ### 3.1 시스템 구성도
 <img src="assets/architecture.png" width="800" />
 
-프론트엔드는 일반적인 비즈니스 로직(회원가입, 상품, 주문 등)은 백엔드를 통해 처리하고, AI 챗봇·AI 이미지 생성은 RunPod GPU Pod를 직접 호출합니다. OpenAI, Google Translate는 RunPod가 관리하는 서비스가 아닌 별도의 외부 API입니다.
-
 ### 3.2 ERD
 
 <img src="assets/erd.png" width="800" />
@@ -69,9 +66,9 @@
 
 판매자가 상품을 등록할 때 향수의 노트(재료)를 입력하면, GPU 서버에서 이미지 생성 모델이 어울리는 배경 이미지를 만들어줍니다.
 
-<img src="assets/background.png" width="400" />
+<img src="assets/background.png" width="450" />
 
-- 입력 프롬프트(한글)를 Google Translate API로 번역 후 Stable Diffusion 3.5로 배경 이미지 생성
+- 입력 프롬프트(한글)를 Google Translate API로 번역 후 **Stable Diffusion 3.5**로 배경 이미지 생성
 - 별도의 배경 제거 엔드포인트에서 `rembg` 라이브러리로 원본 상품 이미지 배경을 제거해, 생성된 배경과 합성 가능
 - 두 기능 모두 RunPod GPU Pod에서 FastAPI로 서빙되며, 프론트엔드가 백엔드를 거치지 않고 직접 호출
 
@@ -79,9 +76,9 @@
 
 ### 5.2 AI 챗봇 향수 검색 (구매자)
 
-원하는 향의 느낌을 텍스트로 입력하면, RAG(Retrieval-Augmented Generation) 파이프라인을 통해 어울리는 향수와 실제 리뷰를 함께 추천합니다.
+원하는 향의 느낌을 텍스트로 입력하면, **RAG(Retrieval-Augmented Generation)** 파이프라인을 통해 어울리는 향수와 실제 리뷰를 함께 추천합니다.
 
-<img src="assets/chatbot.png" width="400" />
+<img src="assets/chatbot.png" width="450" />
 
 - 사용자 질문을 임베딩한 뒤 **FAISS**(로컬 벡터 인덱스)로 관련 향수 정보를 검색
 - **LangChain**으로 검색된 컨텍스트와 질문을 프롬프트로 조합
@@ -92,9 +89,9 @@
 
 ### 5.3 상품 조회 성능 개선
 
-상품의 리뷰 평균 평점과 개수를 매 조회마다 `AVG`/`COUNT`로 집계하는 대신, `Product`에 캐시 컬럼을 두는 반정규화로 조회 성능을 개선했습니다.
+상품의 리뷰 평균 평점과 개수를 매 조회마다 `AVG`/`COUNT`로 집계하는 대신, `Product`테이블에 캐시 컬럼을 두는 반정규화로 조회 성능을 개선했습니다.
 
-- 리뷰 1만 건 기준 API 응답속도 약 **28.6배**, 응답 페이로드 약 **5,723배** 개선
+- 리뷰 1만 건 기준 API 응답속도 약 **28.6배**, 응답 페이로드 약 **5.7배** 개선
 - N+1 문제를 join fetch로 해결해 쿼리 개수를 약 1,200건 → 1건으로 축소
 - 자세한 실측 수치와 과정은 [backend README](./backend/README.md) 참고
 
